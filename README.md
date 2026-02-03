@@ -77,11 +77,12 @@ Evaluasi performa model secara lengkap disajikan pada notebook analisis terpisah
 ### Dataset
 
 Dataset yang digunakan adalah BBC News Dataset yang terdiri dari lima kategori:
+
 - Business
 - Entertainment
 - Politics
 - Sport
 - Tech
-Dataset telah melalui tahap preprocessing sebelum digunakan untuk pelatihan model.
 
+Dataset telah melalui tahap preprocessing sebelum digunakan untuk pelatihan model.
 ---
