@@ -86,3 +86,5 @@ Dataset yang digunakan adalah BBC News Dataset yang terdiri dari lima kategori:
 - Sport
 - Tech
 Dataset telah melalui tahap preprocessing sebelum digunakan untuk pelatihan model.
+
+---

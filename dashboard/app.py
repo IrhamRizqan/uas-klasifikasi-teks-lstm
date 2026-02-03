@@ -360,7 +360,6 @@ else:
             <h3>Rencana Pengembangan</h3>
             <ol>
                 <li>Melakukan tuning hyperparameter lebih lanjut pada model LSTM.</li>
-                <li>Menambahkan <b>Word Embedding (GloVe/Word2Vec)</b>.</li>
                 <li>Memperbanyak variasi data latih.</li>
             </ol>
         </div>
