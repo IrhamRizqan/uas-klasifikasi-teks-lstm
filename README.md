@@ -10,7 +10,7 @@ menggunakan dataset BBC News.
 ---
 
 ### Informasi Tugas
-- Mata Kuliah : Analisis Data dan Pembelajaran Mesin
+- Mata Kuliah : Pemrograman Dasar Sains Data
 - Jenis Tugas : Tugas Akhir Semester (Kelompok)
 - Program Studi : Teknik Informatika
 
