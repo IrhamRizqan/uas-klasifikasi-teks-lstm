@@ -1,10 +1,7 @@
 # Dashboard Klasifikasi Teks Berita (LSTM)
 
 Repository ini berisi implementasi dashboard interaktif untuk tugas besar mata kuliah
-Analisis Data dan Pembelajaran Mesin. Dashboard digunakan untuk menampilkan hasil
-eksplorasi dataset, evaluasi performa model, serta simulasi prediksi kategori teks berita.
-
-Model klasifikasi yang digunakan adalah Long Short-Term Memory (LSTM) yang dilatih
+Pemrograman Dasar Sains Data. Model klasifikasi yang digunakan adalah Long Short-Term Memory (LSTM) yang dilatih
 menggunakan dataset BBC News.
 
 ---
