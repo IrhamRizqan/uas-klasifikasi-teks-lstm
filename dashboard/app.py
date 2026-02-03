@@ -4,7 +4,6 @@ import numpy as np
 import time
 import pickle
 import plotly.express as px
-import plotly.graph_objects as go
 
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -16,179 +15,78 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-if 'theme_mode' not in st.session_state:
-    st.session_state.theme_mode = 'dark'
-
-def toggle_theme():
-    if st.session_state.theme_mode == 'dark':
-        st.session_state.theme_mode = 'light'
-    else:
-        st.session_state.theme_mode = 'dark'
-
 def load_css():
-    mode = st.session_state.theme_mode
-    
-    if mode == 'dark':
-        bg_main = "linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%)"
-        bg_sidebar = "#020617"
-        text_color = "#f8fafc"
-        card_bg = "rgba(30, 41, 59, 0.7)"
-        card_border = "1px solid rgba(148, 163, 184, 0.1)"
-        accent_color = "#38bdf8"
-        shadow = "0 8px 32px 0 rgba(0, 0, 0, 0.37)"
-        header_bg = "rgba(15, 23, 42, 0.0)"
-        input_bg = "rgba(15, 23, 42, 0.6)"
-        input_text_color = "#f8fafc"
-    else:
-        bg_main = "linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%)"
-        bg_sidebar = "#ffffff"
-        text_color = "#0f172a"
-        card_bg = "rgba(255, 255, 255, 0.95)"
-        card_border = "1px solid rgba(203, 213, 225, 1)"
-        accent_color = "#0284c7"
-        shadow = "0 4px 20px 0 rgba(148, 163, 184, 0.25)"
-        header_bg = "rgba(255, 255, 255, 0.0)"
-        input_bg = "#ffffff"
-        input_text_color = "#0f172a"
-
     st.markdown(
-        f"""
+        """
         <style>
-        .stApp {{
-            background: {bg_main};
-            color: {text_color};
+        .stApp {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: #f8fafc;
             font-family: 'Inter', sans-serif;
-        }}
-        
-        p, .stMarkdown, .stText, label, .stRadio label, .stSelectbox label, li, span, h1, h2, h3, h4, h5, h6 {{
-            color: {text_color} !important;
-        }}
-        
-        .custom-color {{
-            color: inherit !important;
-        }}
-        section[data-testid="stSidebar"] {{
-            background-color: {bg_sidebar} !important;
-            border-right: {card_border};
-        }}
-        
-        section[data-testid="stSidebar"] * {{
-            color: {text_color} !important;
-        }}
-        
-        header[data-testid="stHeader"] {{
-            background-color: {header_bg} !important;
-        }}
-        
-        h1, h2, h3 {{
+        }
+
+        p, .stMarkdown, .stText, label, .stRadio label, .stSelectbox label, li, span, h1, h2, h3, h4 {
+            color: #f8fafc !important;
+        }
+
+        section[data-testid="stSidebar"] {
+            background-color: #020617 !important;
+            border-right: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        section[data-testid="stSidebar"] * {
+            color: #f8fafc !important;
+        }
+
+        header[data-testid="stHeader"] {
+            background-color: transparent !important;
+        }
+
+        h1, h2, h3 {
             font-weight: 800 !important;
-            background: -webkit-linear-gradient(45deg, {accent_color}, #8b5cf6);
+            background: -webkit-linear-gradient(45deg, #38bdf8, #8b5cf6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            padding-bottom: 0.2rem;
-            color: transparent !important; /* Required for gradient text */
-        }}
-        
-        .glass-card {{
-            background: {card_bg};
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border-radius: 16px;
-            border: {card_border};
+            border: 1px solid rgba(148, 163, 184, 0.1);
             padding: 24px;
             margin-bottom: 20px;
-            box-shadow: {shadow};
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.37);
             animation: fadeIn 0.8s ease-in-out;
-        }}
-        
-        .glass-card:hover {{
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px 0 rgba(0,0,0,0.1);
-        }}
+        }
 
-        .stButton > button {{
-            background: linear-gradient(90deg, {accent_color}, #6366f1);
+        .stButton > button {
+            background: linear-gradient(90deg, #38bdf8, #6366f1);
             color: white !important;
             border-radius: 12px;
             border: none;
             padding: 0.6rem 1.2rem;
             font-weight: 600;
-            transition: all 0.3s ease;
-        }}
-        
-        .stButton > button:hover {{
-            opacity: 0.9;
-            transform: scale(1.02);
-            box-shadow: 0 0 15px {accent_color};
-        }}
-        
-        .stButton > button p {{
-             color: white !important;
-        }}
+        }
 
-        .stTextArea textarea, .stTextInput input {{
-            background-color: {input_bg} !important;
-            color: {input_text_color} !important;
+        .stTextArea textarea {
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            color: #f8fafc !important;
             border-radius: 12px !important;
-            border: {card_border} !important;
-            caret-color: {input_text_color} !important;
-        }}
-        
-        .stTextArea textarea:disabled {{
-            background-color: {input_bg} !important;
-            color: {input_text_color} !important;
-            opacity: 0.8 !important;
-            -webkit-text-fill-color: {input_text_color} !important;
-        }}
-        
-        div[data-baseweb="select"] > div {{
-            background-color: {input_bg} !important;
-            color: {input_text_color} !important;
-            border-color: {card_border} !important;
-            border-radius: 12px !important;
-        }}
-        
-        div[data-baseweb="select"] span {{
-            color: {input_text_color} !important;
-        }}
-        
-        div[data-baseweb="popover"] div, 
-        div[data-baseweb="menu"] div {{
-            background-color: {bg_sidebar} !important;
-            color: {text_color} !important;
-        }}
-        
-        div[data-testid="metric-container"] {{
-            background: {card_bg};
+            border: 1px solid rgba(148, 163, 184, 0.1) !important;
+        }
+
+        div[data-testid="metric-container"] {
+            background: rgba(30, 41, 59, 0.7);
             border-radius: 12px;
             padding: 10px;
-            border: {card_border};
-            box-shadow: {shadow};
-        }}
-        
-        div[data-testid="metric-container"] label {{
-            color: {text_color} !important;
-            opacity: 0.8;
-        }}
-        
-        div[data-testid="metric-container"] div[data-testid="stMetricValue"] {{
-            color: {accent_color} !important;
-        }}
-        
-        .result-text {{
-            color: {text_color} !important;
-        }}
+            border: 1px solid rgba(148, 163, 184, 0.1);
+        }
 
-        @keyframes fadeIn {{
-            0% {{ opacity: 0; transform: translateY(20px); }}
-            100% {{ opacity: 1; transform: translateY(0); }}
-        }}
-        
-        hr {{
-            border-color: {accent_color};
-            opacity: 0.3;
-        }}
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
         </style>
         """,
         unsafe_allow_html=True
@@ -196,9 +94,12 @@ def load_css():
 
 load_css()
 
-TEXT_COL = "Text"
-LABEL_COL = "Category"
-MAX_LEN = 300
+TEXT_COL         = "Text"
+LABEL_COL        = "Category"
+MAX_LEN          = 300
+GRAPH_TEMPLATE   = "plotly_dark"
+BAR_COLOR_SCALE  = "Bluyl"
+GRAPH_TEXT_COLOR = "#f8fafc"
 
 @st.cache_resource
 def load_artifacts():
@@ -220,25 +121,15 @@ except FileNotFoundError as e:
     st.error("File model atau dataset tidak ditemukan. Pastikan semua file sudah tersedia.")
     st.stop()
 
-graph_text_color = "#0f172a" if st.session_state.theme_mode == 'light' else "#f8fafc"
-graph_template = "plotly_white" if st.session_state.theme_mode == 'light' else "plotly_dark"
-bar_colors = 'Viridis' if st.session_state.theme_mode == 'light' else 'Bluyl'
-
 st.sidebar.markdown(
     """
-    <div style='text-align: center; margin-bottom: 20px;'>
-        <h2 style='margin:0;'>Dashboard UAS</h2>
-        <p style='font-size: 0.8rem; opacity: 0.7;'>Klasifikasi Teks Berita BBC News</p>
+    <div style="text-align:center; margin-bottom:16px;">
+        <h2>Dashboard UAS</h2>
+        <p style="opacity:0.7;">Klasifikasi Teks Berita BBC News</p>
     </div>
-    """, unsafe_allow_html=True
+    """,
+    unsafe_allow_html=True
 )
-
-mode_label = "Mode Terang" if st.session_state.theme_mode == 'dark' else "Mode Gelap"
-if st.sidebar.button(mode_label, use_container_width=True):
-    toggle_theme()
-    st.rerun()
-
-st.sidebar.markdown("---")
 
 menu = st.sidebar.radio(
     "Navigasi",
@@ -250,11 +141,9 @@ menu = st.sidebar.radio(
     ]
 )
 
-
 st.sidebar.markdown("---")
-st.sidebar.info(f"Dibuat untuk UAS\nMode: **{st.session_state.theme_mode.upper()}**")
 
-if menu == "Dashboard Data":
+if menu == "Eksplorasi Dataset":
     st.title("Eksplorasi Dataset Berita")
     st.markdown("Halaman ini menampilkan gambaran umum dataset BBC News yang digunakan dalam proses pelatihan model klasifikasi teks.")
 
@@ -277,22 +166,18 @@ if menu == "Dashboard Data":
         counts.columns = ['Category', 'Count']
         
         fig = px.bar(
-            counts, x='Category', y='Count', 
-            color='Count',
-            color_continuous_scale=bar_colors,
-            template=graph_template
+            counts,
+            x="Category",
+            y="Count",
+            color="Count",
+            color_continuous_scale=BAR_COLOR_SCALE,
+            template=GRAPH_TEMPLATE
         )
-        
+
         fig.update_layout(
-            paper_bgcolor="rgba(0,0,0,0)", 
+            paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
-            font=dict(color=graph_text_color),
-            xaxis=dict(color=graph_text_color),
-            yaxis=dict(color=graph_text_color),
-            coloraxis_colorbar=dict(
-                title=dict(font=dict(color=graph_text_color)),
-                tickfont=dict(color=graph_text_color)
-            )
+            font=dict(color=GRAPH_TEXT_COLOR)
         )
         
         st.plotly_chart(fig, use_container_width=True)
@@ -373,8 +258,8 @@ elif menu == "Prediksi Kategori":
                     
                     fig_prob = px.bar(
                         prob_df, x='Probabilitas', y='Kategori', orientation='h',
-                        color='Probabilitas', color_continuous_scale=bar_colors,
-                        template=graph_template
+                        color='Probabilitas', color_continuous_scale=BAR_COLOR_SCALE,
+                        template=GRAPH_TEMPLATE
                     )
                     
                     fig_prob.update_layout(
@@ -382,9 +267,9 @@ elif menu == "Prediksi Kategori":
                         plot_bgcolor="rgba(0,0,0,0)",
                         margin=dict(l=0, r=0, t=0, b=0),
                         height=200,
-                        font=dict(color=graph_text_color),
-                        xaxis=dict(color=graph_text_color),
-                        yaxis=dict(color=graph_text_color)
+                        font=dict(color=GRAPH_TEXT_COLOR),
+                        xaxis=dict(color=GRAPH_TEXT_COLOR),
+                        yaxis=dict(color=GRAPH_TEXT_COLOR)
                     )
                     st.plotly_chart(fig_prob, use_container_width=True)
 
@@ -437,16 +322,16 @@ elif menu == "Evaluasi Model":
         st.subheader("Kurva Akurasi Pelatihan vs Validasi")
         
         fig_acc = px.line(history_data, x='Epoch', y=['Accuracy', 'Val Accuracy'], markers=True,
-                          template=graph_template)
+                          template=GRAPH_TEMPLATE)
         
         fig_acc.update_layout(
             paper_bgcolor="rgba(0,0,0,0)", 
             plot_bgcolor="rgba(0,0,0,0)", 
             legend_title="Metrik",
-            font=dict(color=graph_text_color),
-            xaxis=dict(color=graph_text_color),
-            yaxis=dict(color=graph_text_color),
-            legend=dict(font=dict(color=graph_text_color)),
+            font=dict(color=GRAPH_TEXT_COLOR),
+            xaxis=dict(color=GRAPH_TEXT_COLOR),
+            yaxis=dict(color=GRAPH_TEXT_COLOR),
+            legend=dict(font=dict(color=GRAPH_TEXT_COLOR)),
             hovermode="x unified"
         )
         st.plotly_chart(fig_acc, use_container_width=True)
@@ -457,7 +342,7 @@ elif menu == "Evaluasi Model":
         "Evaluasi performa model secara lengkap disajikan pada notebook analisis."
     )
 else:
-    st.title("Kesimpulan & Insight")
+    st.title("Kesimpulan dan Insight")
     
     st.markdown("""
     <div class="glass-card">
