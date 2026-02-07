@@ -118,7 +118,7 @@ def load_artifacts():
 try:
     model, tokenizer, label_encoder, df = load_artifacts()
 except FileNotFoundError as e:
-    st.error("File model atau dataset tidak ditemukan. Pastikan semua file sudah tersedia.")
+    st.error("File model atau dataset tidak ditemukan. Pastikan semua file sudah tersedia")
     st.stop()
 
 st.sidebar.markdown(
@@ -145,7 +145,7 @@ st.sidebar.markdown("---")
 
 if menu == "Eksplorasi Dataset":
     st.title("Eksplorasi Dataset Berita")
-    st.markdown("Halaman ini menampilkan gambaran umum dataset BBC News yang digunakan dalam proses pelatihan model klasifikasi teks.")
+    st.markdown("Halaman ini menampilkan gambaran umum dataset BBC News yang digunakan dalam proses pelatihan model klasifikasi teks")
 
     c1, c2, c3 = st.columns(3)
     with c1:
@@ -284,7 +284,7 @@ elif menu == "Prediksi Kategori":
         else:
             st.markdown('<div class="glass-card" style="text-align:center; opacity:0.6;">', unsafe_allow_html=True)
             st.subheader("Menunggu Input")
-            st.markdown("Masukkan teks di sebelah kiri dan tekan tombol Analisis.")
+            st.markdown("Masukkan teks di sebelah kiri dan tekan tombol Analisis")
             st.markdown('</div>', unsafe_allow_html=True)
 
 elif menu == "Evaluasi Model":
@@ -338,8 +338,7 @@ elif menu == "Evaluasi Model":
         st.markdown('</div>', unsafe_allow_html=True)
 
     st.caption(
-        "Catatan: Nilai metrik pada halaman ini ditampilkan sebagai ringkasan visual. "
-        "Evaluasi performa model secara lengkap disajikan pada notebook analisis."
+        "Catatan: Nilai metrik pada halaman ini ditampilkan sebagai ringkasan visual Evaluasi performa model secara lengkap disajikan pada notebook analisis"
     )
 else:
     st.title("Kesimpulan dan Insight")
@@ -348,8 +347,8 @@ else:
     <div class="glass-card">
         <h3>Temuan Utama</h3>
         <ul>
-            <li>Kategori <b>Sport</b> dan <b>Politics</b> cenderung lebih mudah diklasifikasikan karena memiliki istilah yang relatif konsisten dan jarang muncul di kategori lain.</li>
-            <li>Kategori lain seperti <b>Business</b>, <b>Entertainment</b>, dan <b>Tech</b> cenderung memiliki kosakata yang lebih beragam, sehingga lebih sulit untuk diklasifikasikan.</li>
+            <li>Kategori <b>Sport</b> dan <b>Politics</b> cenderung lebih mudah diklasifikasikan karena memiliki istilah yang relatif konsisten dan jarang muncul di kategori lain</li>
+            <li>Kategori lain seperti <b>Business</b>, <b>Entertainment</b>, dan <b>Tech</b> cenderung memiliki kosakata yang lebih beragam, sehingga lebih sulit untuk diklasifikasikan</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
@@ -360,8 +359,8 @@ else:
         <div class="glass-card">
             <h3>Rencana Pengembangan</h3>
             <ol>
-                <li>Melakukan tuning hyperparameter lebih lanjut pada model LSTM.</li>
-                <li>Memperbanyak variasi data latih.</li>
+                <li>Melakukan tuning hyperparameter lebih lanjut pada model LSTM</li>
+                <li>Memperbanyak variasi data latih</li>
             </ol>
         </div>
         """, unsafe_allow_html=True)
