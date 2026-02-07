@@ -153,7 +153,7 @@ if menu == "Eksplorasi Dataset":
     with c2:
         st.metric("Jumlah Kategori", f"{len(df[LABEL_COL].unique())}", "Kelas")
     with c3:
-        avg_len = int(df[TEXT_COL].apply(lambda x: len(str(x).split())).mean())
+        avg_len = int(df[TEXT_COL].astype(str).str.split().str.len().mean())
         st.metric("Rata-rata Kata", f"{avg_len}", "Per Artikel")
 
     col1, col2 = st.columns([1.5, 1])
