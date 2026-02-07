@@ -2,7 +2,7 @@
 
 Repository ini berisi implementasi dashboard interaktif untuk tugas besar mata kuliah
 Pemrograman Dasar Sains Data. Model klasifikasi yang digunakan adalah Long Short-Term Memory (LSTM) yang dilatih
-menggunakan dataset BBC News.
+menggunakan dataset BBC News
 
 ---
 
@@ -68,9 +68,7 @@ streamlit run dashboard/app.py
 
 ### Catatan Model
 
-Model dilatih menggunakan teks berita berbahasa Inggris.
-Prediksi teks berbahasa Indonesia bersifat opsional dan digunakan untuk demonstrasi antarmuka.
-Evaluasi performa model secara lengkap disajikan pada notebook analisis terpisah.
+Model dilatih menggunakan teks berita berbahasa Inggris, namun dapat memprediksi teks berbahasa Indonesia, Evaluasi performa model secara lengkap disajikan pada notebook analisis terpisah
 
 ---
 
@@ -84,6 +82,6 @@ Dataset yang digunakan adalah BBC News Dataset yang terdiri dari lima kategori:
 - Sport
 - Tech
 
-Dataset telah melalui tahap preprocessing sebelum digunakan untuk pelatihan model.
+Dataset telah melalui tahap preprocessing sebelum digunakan untuk pelatihan model
 
 ---
