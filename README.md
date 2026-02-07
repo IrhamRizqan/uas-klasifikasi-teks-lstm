@@ -50,8 +50,8 @@ menggunakan dataset BBC News.
 
 ### 1. Clone repository
 ```bash
-git clone <url-repository>
-cd <nama-folder>
+git clone https://github.com/irhamrzq/Klasifikasi-Teks-Berita-LSTM.git
+cd Klasifikasi-Teks-Berita-LSTM
 ```
 
 ### 2. Install dependencies
