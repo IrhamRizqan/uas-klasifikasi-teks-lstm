@@ -349,6 +349,7 @@ else:
         <h3>Temuan Utama</h3>
         <ul>
             <li>Kategori <b>Sport</b> dan <b>Politics</b> cenderung lebih mudah diklasifikasikan karena memiliki istilah yang relatif konsisten dan jarang muncul di kategori lain.</li>
+            <li>Kategori lain seperti <b>Business</b>, <b>Entertainment</b>, dan <b>Tech</b> cenderung memiliki kosakata yang lebih beragam, sehingga lebih sulit untuk diklasifikasikan.</li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
